@@ -266,15 +266,6 @@ tam_jml_version2 <- function( resp, group=NULL, adj=.3, disattenuate=FALSE,
     meanChangeWLE <- jmlWLE$meanChangeWLE
     errorWLE <- jmlWLE$errorWLE[rp3$theta.index]
     
-    #After convergence, compute final WLE (WLE set to FALSE)
-    jmlMLE <- tam_jml_wle( tamobj=tamobj, resp=resp, resp.ind=resp.ind[ rp3.sel$caseid,],
-                           A=A, B=B, nstud=nrow(rp3.sel), nitems=nitems, maxK=maxK,
-                           convM=convM, PersonScores=PersonScores[ rp3.sel$caseid ],
-                           theta=theta[ rp3.sel$caseid,, drop=FALSE], xsi=xsi,
-                           Msteps=Msteps, WLE=FALSE, version=version)
-    thetaMLE <- jmlMLE$theta[rp3$theta.index,1]
-    seMLE <- jmlMLE$errorWLE[rp3$theta.index]
-
     #WLE person separation reliability
     WLEreliability <- WLErel(theta=thetaWLE, error=errorWLE, w=pweights)
 
@@ -307,7 +298,7 @@ tam_jml_version2 <- function( resp, group=NULL, adj=.3, disattenuate=FALSE,
 
     #--- Output list
     deviance.history <- deviance.history[ 1:iter, ]
-    res <- list( item=item, xsi=xsi, errorP=errorP, theta=theta[,1], thetaMLE = thetaMLE, seMLE = seMLE, 
+    res <- list( item=item, xsi=xsi, errorP=errorP, theta=theta[,1], errorMLE=errorMLE[rp3$theta.index], 
                  errorWLE=errorWLE, WLE=thetaWLE, WLEreliability=WLEreliability, PersonScores=PersonScores,
                  ItemScore=ItemScore, PersonMax=PersonMaxB, ItemMax=ItemMax, deviance=deviance, 
                  deviance.history=deviance.history, resp=resp, resp.ind=resp.ind, group=group, 
